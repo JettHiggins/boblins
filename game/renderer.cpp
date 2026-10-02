@@ -3,6 +3,7 @@
 #include <raymath.h>
 
 Camera3D Renderer::camera = { 0 };
+bool Renderer::cameraLock = false;
 
 Model model = { 0 };
 
@@ -11,16 +12,15 @@ Matrix transforms[MAX_THINGS] = { 0 };
 
 Shader shader = { 0 };
 
+Vector3 cubePos;
+Vector3 size;
 
 void Renderer::unloadRenderer(){
   UnloadShader(shader);
   UnloadModel(model);
 }
 
-void Renderer::initRenderer(){
-
-  DisableCursor();
-
+void Renderer::initRenderer(Bounds bound){
   shader = LoadShader("resources/vertex.glsl", "resources/fragment.glsl");
 
   shader.locs[SHADER_LOC_MATRIX_MVP] = GetShaderLocation(shader, "mvp");
@@ -40,11 +40,16 @@ void Renderer::initRenderer(){
     mat.maps[MATERIAL_MAP_DIFFUSE].color = WHITE;
   }
 
+  size = {bound.max - bound.min};
+  cubePos = bound.min + (size/2);
+
 }
 
 
 void Renderer::drawGame(const Thing* things){
-  UpdateCamera(&camera, CAMERA_FREE);
+  if (cameraLock){
+    UpdateCamera(&camera, CAMERA_FREE);
+  }
   const Vector3 modelRot {0, 1, 0};
   for (int i {1}; i < MAX_THINGS; ++i){
     const Vector3& direction = things[i].direction;
@@ -67,7 +72,8 @@ void Renderer::drawGame(const Thing* things){
       Material& mat = model.materials[model.meshMaterial[i]];
       DrawMeshInstanced(mesh, mat, &transforms[1], MAX_THINGS - 1);
     }
-    DrawGrid(10.0f,  1.0f);
+    // DrawCubeV(cubePos, size, ColorAlpha(SKYBLUE, 0.5f));
   EndMode3D();
   DrawFPS(0,0);
+  Gui::DrawSliders();
 }

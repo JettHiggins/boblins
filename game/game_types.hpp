@@ -1,7 +1,7 @@
 #include <raylib.h>
 #pragma once
 
-const int MAX_THINGS = 1000;
+const int MAX_THINGS = 3000;
 
 enum particleType { NOTHING, GOBLIN, CUBE };
 

@@ -23,6 +23,7 @@ static void DrawTransition(void);           // Draw transition effect (full-scre
 
 static void UpdateDrawFrame(void);          // Update and draw one frame
 
+Bounds bound = {{ -15, -15, -15 }, { 15 , 15, 15 }};
 
 int main(void)
 {
@@ -30,8 +31,8 @@ int main(void)
   InitAudioDevice();
 
   currentScreen = GAME;
-  Renderer::initRenderer();
-  Update::initGame({{0,0,0}, Renderer::camera.position});
+  Renderer::initRenderer(bound);
+  Update::initGame(bound);
 
   SetTargetFPS(0);
 
