@@ -5,7 +5,9 @@
 
 
 void Gui::DrawSliders(){
-  DrawRectangle(0,30, 345, 245, {232, 232, 232, 255});
+  DrawRectangle(0,0, 345, 275, {232, 232, 232, 255});
+  DrawFPS(0,0);
+  DrawText("Backspace = camera control", 85, 0, 18, GRAY);
 
   GuiSliderBar({115,30, 200, 40}, "Speed", TextFormat("%.2f", Update::speed), &Update::speed, 0, 10.0f); 
   GuiSliderBar({115,70, 200, 40}, "Seperation Distance", TextFormat("%.2f", Update::seperation_dist), &Update::seperation_dist, 0, 10.0f); 

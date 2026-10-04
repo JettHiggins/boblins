@@ -74,6 +74,5 @@ void Renderer::drawGame(const Thing* things){
     }
     // DrawCubeV(cubePos, size, ColorAlpha(SKYBLUE, 0.5f));
   EndMode3D();
-  DrawFPS(0,0);
   Gui::DrawSliders();
 }
